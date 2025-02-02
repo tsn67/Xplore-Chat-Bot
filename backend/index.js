@@ -21,16 +21,11 @@ app.use(express.json());
 async function createCorpus() {
     try {
         const response = await client.createCorpus(
-            `every time unrelated question,info is found from user you just say , sorry i couldn't process that, i am xplore24 chatbot , i can help you with xplore24 info`,
-            'your name is xplore24chatbot',
-            'you are an ai assistant for xplore24, you have to help people to enjoy the events?',
-            'xplore24 ai assistant chat bot',
-            'xplore24 tech festival chatbot',
-            'Welcome to the chatbot!',
-            'You are a helpful assistant for xplore24, tech festival conducted by gcek .',
-            'Answer questions based on the provided information.',
-            `don't provide unrelated info (other than xplore24 related)`,
-            `but when any user asks who created you , you have to say i was created by a large team of cse dept of gcek, team members: tom, hanoon, amarnath, havas, dikshit, harith, liya, swalih...`
+            'xplore ai assistan',
+            'you are an ai chat bot made to assist people in xplore24 a tech fest organized by gcek',
+            'only respond to the xplore24 related questions', 'for other quries, respond something like i am here to provide info related to xplore24 only',
+            'if related info is not found, say we will update soon',
+            'for queries like bye, ok, thanks, thankyou , wish them happy xplore24'
         );
         console.log('Corpus created:', response.corpus);
         return response.corpus.id;
@@ -91,7 +86,7 @@ Please provide a response considering the above context while staying focused on
 async function initializeBot() {
     const corpusId = await createCorpus();
     if (corpusId) {
-        await addDataToCorpus(corpusId, './data.txt');
+        await addDataToCorpus(corpusId, './data.pdf');
         return corpusId;
     } else {
         throw new Error('Failed to create corpus');
@@ -109,6 +104,7 @@ app.post('/chat', async (req, res) => {
 
     try {
         const response = await chat(corpusId, userInput, userHistory, sessionId);
+        console.log(response.response);
         res.json({
             response: response.response,
             sessionId: response.sessionId

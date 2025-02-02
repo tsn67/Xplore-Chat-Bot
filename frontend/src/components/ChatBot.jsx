@@ -7,6 +7,63 @@ const ChatBot = () => {
   const [state, setState] = useState("button");
   const [messages, setMessages] = useState([]); //format [{type: 'user', msg: 'hello'}, {type: 'system', msg: 'hello hai'}]
 
+  function formatMessage(msg) {
+    
+    const boldPattern = /\*\*(.*?)\*\*/g;
+    const heavy = /\#\#\#\ (.*?)/g; 
+    const semiBoldPattern = /\*(.*?)\*/g; 
+    
+  
+    let formattedMsg = msg;
+    let elements = [];
+    let lastIndex = 0;
+  
+    msg.replace(
+      /(\*\*.*?\*\*|\*.*?\* \w+)/g,
+      (match, captured, index) => {
+        
+        if (index > lastIndex) {
+          elements.push(msg.slice(lastIndex, index));
+        }
+  
+        if (match.startsWith("**")) {
+          
+          elements.push(
+            <span key={index} className="text-yellow-200">
+              {match.replace(/\*\*/g, "")}
+            </span>
+          );
+        } else if (match.startsWith("*")) {
+
+          elements.push(
+            <span key={index} className="text-yellow-100">
+              {match.replace(/\*/g, "")}
+            </span>
+          );
+        } 
+        
+        else if(match.startsWith('###')) {
+          elements.push(
+            <span key={index} className="text-blue-500">
+              {match.replace("###", "")}
+            </span>
+          );
+        }
+  
+        lastIndex = index + match.length;
+        return match;
+      }
+    );
+  
+    
+    if (lastIndex < msg.length) {
+      elements.push(msg.slice(lastIndex));
+    }
+  
+    return elements;
+  }
+  
+
   async function chatAi() {
     
     const requestData = {
@@ -17,8 +74,8 @@ const ChatBot = () => {
 
     try {
      
-      const response = await axios.post('https://xplore-chat-bot-production.up.railway.app/chat', requestData);
-      console.log(response);
+      const response = await axios.post('https://accomplished-amazement-production.up.railway.app/chat', requestData);
+      //console.log(response);
       return response.data.response;
       
     } catch (err) {
@@ -143,6 +200,7 @@ const ChatBot = () => {
                 {wishWord.split("").map((char, index) => {
                   return (
                     <motion.p
+                      key={index}
                       initial={{ opacity: 0.1 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: index * 0.03 }}
@@ -167,11 +225,11 @@ const ChatBot = () => {
                     <motion.div
                       initial={{ opacity: 0.6, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      key={index == messages.length ? "animated" : "initial"}
+                      key={(2 * index)}
                       className="w-full flex justify-end mb-2 pr-[10px]"
                     >
-                      <div className="bg-blue-700 rounded-sm px-2 max-w-[80%] break-words">
-                        <p className="text-white leading-[24px] whitespace-pre-wrap m-0">
+                      <div className="rounded-sm px-1 max-w-[85%]">
+                        <p className="text-left bg-blue-700  text-white leading-[20px] box-border py-2  rounded-sm px-2 whitespace-pre-wrap m-0">
                           {item.msg}
                         </p>
                       </div>
@@ -182,12 +240,12 @@ const ChatBot = () => {
                     <motion.div
                       initial={{ opacity: 0.6, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      key={index == messages.length ? "animated" : "initial"}
+                      key={(2 * index) + 1}
                       className="w-full flex justify-start mb-2 pl-[10px]"
                     >
-                      <div className="bg-white-500 rounded-sm px-1 max-w-[80%] break-words">
-                        <p className="text-white leading-[20px] box-border py-2 bg-slate-800 rounded-sm px-2 whitespace-pre-wrap m-0">
-                          {item.msg}
+                      <div className="bg-white-500 rounded-sm px-1 max-w-[85%] break-words">
+                        <p className="text-left  text-white leading-[20px] box-border py-2 bg-slate-800 rounded-sm px-2 whitespace-pre-wrap m-0">
+                          {formatMessage(item.msg)}
                         </p>
                       </div>
                     </motion.div>
@@ -351,6 +409,7 @@ const ChatBar = ({ action }) => {
           {gptWord.split("").map((char, index) => {
             return (
               <motion.p
+                key={index}
                 initial={{ opacity: 0.1 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: index * 0.07 }}
