@@ -11,38 +11,38 @@ const ChatBot = () => {
     
     const requestData = {
       userInput: input,
-      sessionId: '123', 
+      sessionId: '123',
+      userHistory: messages,
     };
 
     try {
      
-      const response = await axios.post('https://xplore-chat-bot-production.up.railway.app/chat', requestData);
+      const response = await axios.post('http://localhost:3000/chat', requestData);
       console.log(response);
       return response.data.response;
       
     } catch (err) {
       console.log(err);
     } finally {
-      //setLoading(false);  
+      
     }
 
   }
   
   async function sendInput() {
-    if (state === "loading") return; // Don't process if in loading state
-    setInput(""); // Clear input
-    if (state !== "chat") setState("chat"); // Change state to "chat" if not already
+    if (state === "loading") return; 
+    setInput(""); 
+    if (state !== "chat") setState("chat"); 
   
-    setMessages((prev) => [...prev, { type: "user", msg: input }]); // Add user message
-    setState("loading"); // Set loading state while waiting for AI response
+    setMessages((prev) => [...prev, { type: "user", msg: input }]); 
+    setState("loading"); 
   
-    // Wait for the AI response and then set the system message
+    
     const aiMessage = await chatAi();
     setState('chat');
-    // Once AI response is received, set the system message
+   
     setMessages((prev) => [...prev, { type: "system", msg: aiMessage }]);
   
-    // Optional: You can make your API call here after receiving AI response
   }
   if (state == "button") {
     return (
@@ -60,7 +60,7 @@ const ChatBot = () => {
       animate={{ opacity: 1, height: "auto" }}
       transition={{ duration: 0.2 }}
     >
-      <div className="md:w-[350px] md:h-[400px] h-[80vh] w-[400px] outline outline-1 outline-[#51A8FF] bg-black/60 relative backdrop-blur-sm">
+      <div className="w-[350px] h-[400px] outline outline-1 outline-[#51A8FF] bg-black/60 relative backdrop-blur-sm">
         {state == "initial" && (
           <div className="h-[84%] w-[100%] grid place-content-center">
             <div className="flex flex-col items-center justify-center">
