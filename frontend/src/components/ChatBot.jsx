@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const ChatBot = () => {
   const [input, setInput] = useState("");
-  const [state, setState] = useState("button");
+  const [state, setState] = useState("initial");
   const [messages, setMessages] = useState([]); //format [{type: 'user', msg: 'hello'}, {type: 'system', msg: 'hello hai'}]
 
   function formatMessage(msg) {
@@ -13,7 +13,6 @@ const ChatBot = () => {
     const heavy = /\#\#\#\ (.*?)/g; 
     const semiBoldPattern = /\*(.*?)\*/g; 
     
-  
     let formattedMsg = msg;
     let elements = [];
     let lastIndex = 0;
@@ -73,7 +72,7 @@ const ChatBot = () => {
     };
 
     try {
-     
+      // remote backend = https://xplore-chat-bot-production.up.railway.app/chat
       const response = await axios.post('https://xplore-chat-bot-production.up.railway.app/chat', requestData);
       //console.log(response);
       return response.data.response;
@@ -101,15 +100,9 @@ const ChatBot = () => {
     setMessages((prev) => [...prev, { type: "system", msg: aiMessage }]);
   
   }
-  if (state == "button") {
-    return (
-      <div className="md:w-[350px] md:h-[400px] h-[80vh] w-[400px] relative flex flex-col items-center justify-end">
-        <ChatBar action={setState} />
-      </div>
-    );
-  }
+  
 
-  const wishWord = "Goodmorning, how can I help you?";
+  const wishWord = "Hello there, welcome to xplore24 chatbot, how can I help you?";
 
   return (
     <motion.div
@@ -117,7 +110,7 @@ const ChatBot = () => {
       animate={{ opacity: 1, height: "auto" }}
       transition={{ duration: 0.2 }}
     >
-      <div className="w-[350px] h-[400px] outline outline-1 outline-[#51A8FF] bg-black/60 relative backdrop-blur-sm">
+      <div className="w-[350px] h-[90vh] h-min-[40vh] flex flex-col overflow-hidden justify-between  lg:w-[60vw] lg:h-[90vh] outline outline-1 rounded-md outline-[#51A8FF] bg-black/60 relative backdrop-blur-sm">
         {state == "initial" && (
           <div className="h-[84%] w-[100%] grid place-content-center">
             <div className="flex flex-col items-center justify-center">
@@ -196,7 +189,13 @@ const ChatBot = () => {
                 />
               </motion.svg>
 
-              <div className="flex flex-row">
+              <div className="w-[80px] h-[80px]">
+                <img src="./logo.png" alt="xplore24 logo" />
+              </div>
+
+
+              <div className="w-[310px] lg:w-[510px]">
+                <div className="flex flex-row flex-wrap justify-center">
                 {wishWord.split("").map((char, index) => {
                   return (
                     <motion.p
@@ -204,13 +203,14 @@ const ChatBot = () => {
                       initial={{ opacity: 0.1 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: index * 0.03 }}
-                      className="text-white"
+                      className={`lg:text-[18px] ${index > 22  && index < 40?"text-orange-500 font-semibold ":"text-white"}`}
                       style={{ whiteSpace: "pre-wrap" }}
                     >
                       {char}
                     </motion.p>
                   );
                 })}
+                </div>
               </div>
             </div>
           </div>
@@ -229,7 +229,7 @@ const ChatBot = () => {
                       className="w-full flex justify-end mb-2 pr-[10px]"
                     >
                       <div className="rounded-sm px-1 max-w-[85%]">
-                        <p className="text-left bg-blue-700  text-white leading-[20px] box-border py-2  rounded-sm px-2 whitespace-pre-wrap m-0">
+                        <p className="text-left lg:text-[17px] bg-blue-700  text-white leading-[20px] box-border py-2  rounded-sm px-2 whitespace-pre-wrap m-0">
                           {item.msg}
                         </p>
                       </div>
@@ -244,7 +244,7 @@ const ChatBot = () => {
                       className="w-full flex justify-start mb-2 pl-[10px]"
                     >
                       <div className="bg-white-500 rounded-sm px-1 max-w-[85%] break-words">
-                        <p className="text-left  text-white leading-[20px] box-border py-2 bg-slate-800 rounded-sm px-2 whitespace-pre-wrap m-0">
+                        <p className="text-left lg:text-[17px] text-white leading-[20px] box-border py-2 bg-slate-800 rounded-sm px-2 whitespace-pre-wrap m-0">
                           {formatMessage(item.msg)}
                         </p>
                       </div>
@@ -346,9 +346,9 @@ const ChatBot = () => {
           </div>
         )}
 
-        <div className="h-[16%] w-full p-2 flex flex-row items-center">
+        <div className="h-[16%] max-h-[80px] w-full p-2 flex flex-row items-center">
           <div
-            className={`flex flex-row items-center justify-between h-full w-[100%] bg-black outline outline-1 ${
+            className={`flex flex-row items-center justify-between h-full w-[100%] bg-black outline outline-1 rounded-sm ${
               input.length !== 0 ? "outline-[#51A8FF]" : "outline-gray-400"
             }`}
           >
@@ -362,15 +362,15 @@ const ChatBot = () => {
                   sendInput();
                 }
               }}
-              className="border-none outline-none text-white bg-transparent px-2 box-border w-4/5"
-              placeholder="ask xplore ai assistant?"
+              className="border-none outline-none lg:text-[19px] text-white bg-transparent px-2 lg:w-[90%] h-[90%] box-border w-4/5"
+              placeholder="ask xplore24 chat bot"
             />
 
             <div
               onClick={() => {
                 sendInput();
               }}
-              className={`rounded-[2px] grid place-content-center h-[40px] w-[40px]  mr-1 ${
+              className={`rounded-[2px] grid place-content-center h-[40px] w-[40px] lg:h-[50px] lg:w-[50px] mr-1 lg:mr-2 ${
                 input.length != 0 ? "bg-[#2282FF]" : "bg-gray-600"
               }`}
             >
@@ -394,141 +394,6 @@ const ChatBot = () => {
   );
 };
 
-const ChatBar = ({ action }) => {
-  var gptWord = "GPT GCEK";
-
-  return (
-    <div
-      onClick={() => {
-        action("initial");
-      }}
-      className="relative"
-    >
-      <div className="absolute left-6 top-[25%]  text-white text-sm flex">
-        <div className="flex flex-row">
-          {gptWord.split("").map((char, index) => {
-            return (
-              <motion.p
-                key={index}
-                initial={{ opacity: 0.1 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: index * 0.07 }}
-                className="text-white font-semibold"
-                style={{ whiteSpace: "pre-wrap" }}
-              >
-                {char}
-              </motion.p>
-            );
-          })}
-        </div>
-      </div>
-      <div className="absolute right-2 top-[5px] ">
-        <motion.svg
-          width="33"
-          height="34"
-          viewBox="0 0 33 34"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
-        >
-          <ellipse
-            cx="7.75631"
-            cy="0.987167"
-            rx="7.75631"
-            ry="0.987167"
-            transform="matrix(1 0 0 -1 17.4883 17.7695)"
-            fill="#FF2A6D"
-          />
-          <ellipse
-            cx="7.75631"
-            cy="0.987167"
-            rx="7.75631"
-            ry="0.987167"
-            transform="matrix(1 0 0 -1 0 17.6777)"
-            fill="#FBF840"
-          />
-          <ellipse
-            cx="7.75631"
-            cy="0.987167"
-            rx="7.75631"
-            ry="0.987167"
-            transform="matrix(0.707107 0.707107 0.707107 -0.707107 16.4531 18.2715)"
-            fill="#FBF840"
-          />
-          <ellipse
-            cx="7.75631"
-            cy="0.987167"
-            rx="7.75631"
-            ry="0.987167"
-            transform="matrix(0 1 1 0 15.5117 0)"
-            fill="#E65AFF"
-          />
-          <ellipse
-            cx="7.75631"
-            cy="0.987167"
-            rx="7.75631"
-            ry="0.987167"
-            transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 16.4082 15.3398)"
-            fill="#FF4A4A"
-          />
-          <ellipse
-            cx="7.75631"
-            cy="0.987167"
-            rx="7.75631"
-            ry="0.987167"
-            transform="matrix(-0.707107 0.707107 0.707107 0.707107 27.4219 4.37109)"
-            fill="#2282FF"
-          />
-          <ellipse
-            cx="7.75631"
-            cy="0.987167"
-            rx="7.75631"
-            ry="0.987167"
-            transform="matrix(-0.707107 0.707107 0.707107 0.707107 15.0117 16.873)"
-            fill="#FF6828"
-          />
-          <ellipse
-            cx="7.75631"
-            cy="0.987167"
-            rx="7.75631"
-            ry="0.987167"
-            transform="matrix(0 1 1 0 15.5117 17.6777)"
-            fill="#0EEB88"
-          />
-        </motion.svg>
-      </div>
-      <svg
-        width="237"
-        height="44"
-        viewBox="0 0 237 44"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M236.5 43.5L0.5 43.5V22.1871L19.3679 0.499996L236.5 0.499996L236.5 22V43.5Z"
-          fill="black"
-          fillOpacity="0.73"
-          stroke="url(#paint0_linear_373_2)"
-        />
-
-        <defs>
-          <linearGradient
-            id="paint0_linear_373_2"
-            x1="0"
-            y1="22"
-            x2="237"
-            y2="22"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor="#51A8FF" />
-            <stop offset="1" stopColor="#399CFF" />
-          </linearGradient>
-        </defs>
-      </svg>
-    </div>
-  );
-};
 
 
 const ChatbotLoading = () => {

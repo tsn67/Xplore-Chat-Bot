@@ -9,6 +9,8 @@ const API_KEY = process.env.RAGCY_API_KEY;
 const client = ragcy.init({ key: API_KEY });
 const app = express();
 const port = process.env.PORT || 3000;
+var chatCount = 0;
+var prevMsgs = []; //maximum 10 messages stored (from all users)
 
 app.use(cors({
     origin: '*',
@@ -59,6 +61,7 @@ function formatChatHistory(history) {
 
 async function chat(corpusId, userInput, userHistory = [], sessionId = null) {
     try {
+        
         const formattedHistory = formatChatHistory(userHistory);
         const contextualInput = `
 Previous conversation:
@@ -95,7 +98,11 @@ async function initializeBot() {
 
 app.post('/chat', async (req, res) => {
     const { userInput, sessionId, userHistory = [] } = req.body;
-    
+    chatCount++;
+    if(prevMsgs.length > 10) {
+        prevMsgs = [];
+    } 
+    prevMsgs.push(userInput);
     if (!userInput) {
         return res.status(400).json({ 
             error: 'User input is required' 
@@ -104,7 +111,7 @@ app.post('/chat', async (req, res) => {
 
     try {
         const response = await chat(corpusId, userInput, userHistory, sessionId);
-        console.log(response.response);
+        //console.log(response.response);
         res.json({
             response: response.response,
             sessionId: response.sessionId
@@ -117,15 +124,32 @@ app.post('/chat', async (req, res) => {
     }
 });
 
+app.post('/prevMsg', (req, res) => {
+    const {password} = req.body;
+    if(password != 'hats123') res.json({msg: 'unauthorized!'});
+    res.json({
+        prevMsg: prevMsgs
+    });
+});
+
+app.post('/chatCount', (req, res) => {
+    const {password} = req.body;
+    if(password != 'hats123') res.json({msg: 'unauthorized!'});
+    res.json({
+        count: chatCount
+    });
+});
+
 let corpusId = null;
 
 initializeBot()
     .then((id) => {
         corpusId = id;
         app.listen(port, () => {
-            console.log(`Server is running on http://localhost:${port}`);
+            console.log(`Server is running on:${port}`);
         });
     })
     .catch((error) => {
         console.error('Error initializing chatbot:', error);
     });
+

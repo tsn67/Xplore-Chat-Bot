@@ -8,7 +8,7 @@ const App = () => {
   return (
 
    <>
-        <div className="overflow-hidden h-screen w-screen grid place-content-center bg-fixed bg-red-600" style={{backgroundImage: 'url("./image 1.png")', backgroundSize: 'contain'}}>
+        <div className="overflow-hidden h-screen w-screen grid place-content-center bg-fixed bg-red-600" style={{backgroundImage: 'url("./Hero_bg.png")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
             <ChatBot />
         </div>
    </>
