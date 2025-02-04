@@ -72,6 +72,7 @@ const ChatBot = () => {
     };
 
     try {
+      
       // remote backend = https://xplore-chat-bot-production.up.railway.app/chat
       const response = await axios.post('https://xplore-chat-bot-production.up.railway.app/chat', requestData);
       //console.log(response);
@@ -359,6 +360,7 @@ const ChatBot = () => {
               type="text"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
+                  if(input.trim().length == 0) return;
                   sendInput();
                 }
               }}
@@ -368,6 +370,7 @@ const ChatBot = () => {
 
             <div
               onClick={() => {
+                if(input.trim().length == 0) return;
                 sendInput();
               }}
               className={`rounded-[10px] grid place-content-center h-[40px] w-[40px] lg:h-[50px] lg:w-[50px] pl-[5px] mr-2 lg:mr-2 ${
