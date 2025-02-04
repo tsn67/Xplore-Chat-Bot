@@ -73,7 +73,7 @@ const ChatBot = () => {
 
     try {
       // remote backend = https://xplore-chat-bot-production.up.railway.app/chat
-      const response = await axios.post('http://localhost:3000/chat', requestData);
+      const response = await axios.post('https://xplore-chat-bot-production.up.railway.app/chat', requestData);
       //console.log(response);
       return response.data.response;
       
