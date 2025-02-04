@@ -230,7 +230,7 @@ const ChatBot = () => {
                       className="w-full flex justify-end mb-2 pr-[10px]"
                     >
                       <div className="rounded-sm px-1 max-w-[85%]">
-                        <p className="text-left lg:text-[17px] bg-blue-700  text-white leading-[20px] box-border py-2  rounded-sm px-2 whitespace-pre-wrap m-0">
+                        <p className="text-left lg:text-[17px] rounded-lg bg-blue-700  text-white leading-[20px] box-border py-2  px-2 whitespace-pre-wrap m-0">
                           {item.msg}
                         </p>
                       </div>
@@ -245,7 +245,7 @@ const ChatBot = () => {
                       className="w-full flex justify-start mb-2 pl-[10px]"
                     >
                       <div className="bg-white-500 rounded-sm px-1 max-w-[85%] break-words">
-                        <p className="text-left lg:text-[17px] text-white leading-[20px] box-border py-2 bg-slate-800 rounded-sm px-2 whitespace-pre-wrap m-0">
+                        <p className="text-left lg:text-[17px] rounded-lg text-white leading-[20px] box-border py-2 bg-slate-800 rounded-sm px-2 whitespace-pre-wrap m-0">
                           {formatMessage(item.msg)}
                         </p>
                       </div>
