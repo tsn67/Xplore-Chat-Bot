@@ -111,7 +111,7 @@ const ChatBot = () => {
       animate={{ opacity: 1, height: "auto" }}
       transition={{ duration: 0.2 }}
     >
-      <div className="w-[350px] h-[80vh] h-min-[40vh] flex flex-col overflow-hidden justify-between  lg:w-[60vw] lg:h-[90vh] rounded-[10px]  bg-[#0D0B0B] outline outline-1 outline-[#393B41] relative backdrop-blur-sm">
+      <div className="w-[350px] h-[85vh] h-min-[40vh] flex flex-col overflow-hidden justify-between  lg:w-[60vw] lg:h-[90vh] rounded-[10px]  bg-[#0D0B0B] outline outline-1 outline-[#393B41] relative backdrop-blur-sm">
         {state == "initial" && (
           <div className="h-[84%] w-[100%] grid place-content-center">
             <div className="flex flex-col items-center justify-center">
@@ -195,7 +195,7 @@ const ChatBot = () => {
               </div>
 
 
-              <div className="w-[310px] lg:w-[510px]">
+              <div className="w-[320px] lg:w-[510px]">
                 <div className="flex flex-row flex-wrap justify-center">
                 {wishWord.split("").map((char, index) => {
                   return (
