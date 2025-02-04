@@ -89,7 +89,7 @@ Please provide a response considering the above context while staying focused on
 async function initializeBot() {
     const corpusId = await createCorpus();
     if (corpusId) {
-        await addDataToCorpus(corpusId, './data.pdf');
+        await addDataToCorpus(corpusId, './data-1.pdf');
         return corpusId;
     } else {
         throw new Error('Failed to create corpus');
@@ -99,7 +99,7 @@ async function initializeBot() {
 app.post('/chat', async (req, res) => {
     const { userInput, sessionId, userHistory = [] } = req.body;
     chatCount++;
-    if(prevMsgs.length > 10) {
+    if(prevMsgs.length > 40) {
         prevMsgs = [];
     } 
     prevMsgs.push(userInput);

@@ -73,7 +73,7 @@ const ChatBot = () => {
 
     try {
       // remote backend = https://xplore-chat-bot-production.up.railway.app/chat
-      const response = await axios.post('https://xplore-chat-bot-production.up.railway.app/chat', requestData);
+      const response = await axios.post('http://localhost:3000/chat', requestData);
       //console.log(response);
       return response.data.response;
       
@@ -110,7 +110,7 @@ const ChatBot = () => {
       animate={{ opacity: 1, height: "auto" }}
       transition={{ duration: 0.2 }}
     >
-      <div className="w-[350px] h-[90vh] h-min-[40vh] flex flex-col overflow-hidden justify-between  lg:w-[60vw] lg:h-[90vh] outline outline-1 rounded-md outline-[#51A8FF] bg-black/60 relative backdrop-blur-sm">
+      <div className="w-[350px] h-[80vh] h-min-[40vh] flex flex-col overflow-hidden justify-between  lg:w-[60vw] lg:h-[90vh] rounded-[10px]  bg-[#0D0B0B] outline outline-1 outline-[#393B41] relative backdrop-blur-sm">
         {state == "initial" && (
           <div className="h-[84%] w-[100%] grid place-content-center">
             <div className="flex flex-col items-center justify-center">
@@ -203,7 +203,7 @@ const ChatBot = () => {
                       initial={{ opacity: 0.1 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: index * 0.03 }}
-                      className={`lg:text-[18px] ${index > 22  && index < 40?"text-orange-500 font-semibold ":"text-white"}`}
+                      className={`lg:text-[18px] ${index > 22  && index < 40?"text-orange-500 font-normal ":"text-white font-light"}`}
                       style={{ whiteSpace: "pre-wrap" }}
                     >
                       {char}
@@ -348,8 +348,8 @@ const ChatBot = () => {
 
         <div className="h-[16%] max-h-[80px] w-full p-2 flex flex-row items-center">
           <div
-            className={`flex flex-row items-center justify-between h-full w-[100%] bg-black outline outline-1 rounded-sm ${
-              input.length !== 0 ? "outline-[#51A8FF]" : "outline-gray-400"
+            className={`flex flex-row items-center justify-between h-full w-[100%] bg-[#15181C] outline outline-1 rounded-[12px] ${
+              input.length !== 0 ? "outline-blue-900" : "outline-gray-700"
             }`}
           >
             <input
@@ -362,7 +362,7 @@ const ChatBot = () => {
                   sendInput();
                 }
               }}
-              className="border-none outline-none lg:text-[19px] text-white bg-transparent px-2 lg:w-[90%] h-[90%] box-border w-4/5"
+              className="border-none outline-none lg:text-[19px] text-white bg-transparent px-[10px] lg:w-[90%] h-[90%] box-border w-4/5"
               placeholder="ask xplore24 chat bot"
             />
 
@@ -370,8 +370,8 @@ const ChatBot = () => {
               onClick={() => {
                 sendInput();
               }}
-              className={`rounded-[2px] grid place-content-center h-[40px] w-[40px] lg:h-[50px] lg:w-[50px] mr-1 lg:mr-2 ${
-                input.length != 0 ? "bg-[#2282FF]" : "bg-gray-600"
+              className={`rounded-[10px] grid place-content-center h-[40px] w-[40px] lg:h-[50px] lg:w-[50px] pl-[5px] mr-2 lg:mr-2 ${
+                input.length != 0 ? "bg-blue-700" : "bg-[#333437]"
               }`}
             >
               <svg
