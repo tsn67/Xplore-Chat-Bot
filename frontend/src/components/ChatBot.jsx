@@ -103,7 +103,7 @@ const ChatBot = () => {
   }
   
 
-  const wishWord = "Hello there, welcome to xplore24 chatbot, how can I help you?";
+  const wishWord = ""; //Hello there, welcome to xplore24 chatbot, how can I help you?
 
   return (
     <motion.div
@@ -190,10 +190,13 @@ const ChatBot = () => {
                 />
               </motion.svg>
 
-              <div className="w-[80px] h-[80px]">
+              {/* <div className="w-[80px] h-[80px]">
                 <img src="./logo.png" alt="xplore24 logo" />
-              </div>
+              </div> */}
 
+              <div className="w-[70%] mt-[20px]">
+                <p className=" text-red-500 bg-[#180505] outline outline-1 outline-[#551919] text-center rounded-lg p-2">We are currently experiencing a service outage. Our team is working to resolve the issue as soon as possible. Thank you for your patience.</p>
+              </div>
 
               <div className="w-[320px] lg:w-[510px]">
                 <div className="flex flex-row flex-wrap justify-center">
@@ -354,8 +357,8 @@ const ChatBot = () => {
             }`}
           >
             <input
-              onChange={(e) => setInput(e.target.value)}
-              value={input}
+              onChange={(e) => setInput("")}
+              value={""}
               autoFocus
               type="text"
               onKeyDown={(e) => {
